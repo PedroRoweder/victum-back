@@ -1,0 +1,27 @@
+{
+  "name": "victum-back",
+  "version": "1.0.0",
+  "description": "Are you reading this? seriously?",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "nodemon": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PedroRoweder/victum-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PedroRoweder/victum-back/issues"
+  },
+  "homepage": "https://github.com/PedroRoweder/victum-back#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
