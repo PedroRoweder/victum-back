@@ -2,7 +2,7 @@ const routes = require("express").Router();
 
 // Controllers
 const IndexController = require("./controllers/index");
-const OperationController = require("./controllers/operationController");
+const PartController = require("./controllers/partController");
 
 // health
 routes.get(
@@ -11,6 +11,8 @@ routes.get(
   IndexController.getHealth
 );
 
-routes.post("/operation", OperationController.createOperation);
+routes.post("/parts", PartController.createPart);
+
+routes.get("/parts/:SKU", PartController.getParts);
 
 module.exports = routes;

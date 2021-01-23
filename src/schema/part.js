@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const operationSchema = new mongoose.Schema({
+const partSchema = new mongoose.Schema({
   SKU: String,
   desc: String,
   operationList: [
@@ -12,4 +12,4 @@ const operationSchema = new mongoose.Schema({
   ],
 });
 
-module.exports = operationSchema;
+module.exports = partSchema;
