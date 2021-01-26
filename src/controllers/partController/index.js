@@ -2,34 +2,39 @@ const connection = require("../../database");
 
 // Schemas
 const partSchema = require("../../schema/part");
+const Part = connection.model("part", partSchema);
 
 const PartController = {
   createPart: async (req, res) => {
     try {
-      const Part = connection.model("part", partSchema);
-
       const newPart = new Part(req.body);
 
       await newPart.save();
 
       return res.status(200).json({ newPart });
     } catch (error) {
-      return res.status(500).json({ message: error });
+      return res.status(500).json({ route: "POST /parts", message: error });
     }
   },
-  getParts: async (req, res) => {
+  listParts: async (req, res) => {
+    try {
+      const parts = await Part.find({}).select("-_id -__v");
+
+      return res.status(200).json({ parts });
+    } catch (error) {
+      return res.status(500).json({ route: "GET /parts", message: error });
+    }
+  },
+  getPart: async (req, res) => {
     try {
       const { SKU } = req.params;
-      const Part = await connection
-        .model("part", partSchema)
-        .findOne({ SKU })
-        .exec();
+      const part = await Part.findOne({ SKU }).exec();
 
-      if (!Part) return res.status(404).json({ message: "Part not found." });
+      if (!part) return res.status(404).json({ message: "Part not found." });
 
-      return res.status(200).json({ Part });
+      return res.status(200).json({ part });
     } catch (error) {
-      return res.status(500).json({ message: error });
+      return res.status(500).json({ route: "GET /parts/:SKU", message: error });
     }
   },
 };

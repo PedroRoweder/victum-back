@@ -11,8 +11,10 @@ routes.get(
   IndexController.getHealth
 );
 
+// Parts
 routes.post("/parts", PartController.createPart);
-
-routes.get("/parts/:SKU", PartController.getParts);
+routes.get("/parts", PartController.listParts);
+routes.get("/parts/:SKU", PartController.getPart);
+// Parts End
 
 module.exports = routes;
