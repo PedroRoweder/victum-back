@@ -26,7 +26,33 @@ const PartController = {
 
       return res.status(200).json({ newPart });
     } catch (error) {
+      console.log("POST /parts", error);
       return res.status(500).json({ route: "POST /parts", message: error });
+    }
+  },
+  updatePart: async (req, res) => {
+    const { SKU } = req.params;
+
+    try {
+      const part = await Part.findOne({ SKU }).exec();
+
+      if (!part) {
+        res.status(404).json({ message: "Invalid SKU." });
+      }
+
+      // ! Think about a better way to do this, its horrible
+      req.body.SKU ? (part.SKU = req.body.SKU) : undefined;
+      req.body.desc ? (part.desc = req.body.desc) : undefined;
+      req.body.operationList
+        ? (part.operationList = req.body.operationList)
+        : undefined;
+
+      await part.save();
+
+      res.status(200).json({ updatedPart: part });
+    } catch (error) {
+      console.log("PUT /parts/:SKU", error);
+      return res.status(500).json({ route: "PUT /parts/:SKU", message: error });
     }
   },
   listParts: async (req, res) => {
@@ -35,6 +61,7 @@ const PartController = {
 
       return res.status(200).json({ parts });
     } catch (error) {
+      console.log("GET /parts", error);
       return res.status(500).json({ route: "GET /parts", message: error });
     }
   },
@@ -47,20 +74,8 @@ const PartController = {
 
       return res.status(200).json({ part });
     } catch (error) {
+      console.log("GET /parts/:SKU", error);
       return res.status(500).json({ route: "GET /parts/:SKU", message: error });
-    }
-  },
-  listParts: async (req, res) => {
-    try {
-      const Parts = await connection
-        .model("part", partSchema)
-        .find({}, "-_id SKU desc");
-
-      if (!Parts) return res.status(404).json({ message: "No data found." });
-
-      return res.status(200).json({ Parts });
-    } catch (error) {
-      return res.status(500).json({ message: error });
     }
   },
 };

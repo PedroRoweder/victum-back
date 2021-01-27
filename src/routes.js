@@ -15,6 +15,7 @@ routes.get(
 routes.post("/parts", PartController.createPart);
 routes.get("/parts", PartController.listParts);
 routes.get("/parts/:SKU", PartController.getPart);
+routes.put("/parts/:SKU", PartController.updatePart);
 // Parts End
 
 module.exports = routes;
