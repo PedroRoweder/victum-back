@@ -40,13 +40,6 @@ const PartController = {
         res.status(404).json({ message: "Invalid SKU." });
       }
 
-      // ! Think about a better way to do this, its horrible
-      /* req.body.SKU ? (part.SKU = req.body.SKU) : undefined;
-      req.body.desc ? (part.desc = req.body.desc) : undefined;
-      req.body.operationList
-        ? (part.operationList = req.body.operationList)
-        : undefined; */
-
       part = Object.assign(part, req.body);
 
       await part.save();
@@ -55,6 +48,23 @@ const PartController = {
     } catch (error) {
       console.log("PUT /parts/:SKU", error);
       return res.status(500).json({ route: "PUT /parts/:SKU", message: error });
+    }
+  },
+  deletePart: async (req, res) => {
+    const { SKU } = req.params;
+    try {
+      const part = await Part.findOne({ SKU }).exec();
+
+      if (!part) {
+        res.status(404).json({ message: "Invalid SKU." });
+      }
+
+      await part.remove();
+
+      return res.status(200).json({ deletedPart: part });
+    } catch (error) {
+      console.log("DEL /parts/:SKU", error);
+      return res.status(500).json({ route: "DEL /parts/:SKU", message: error });
     }
   },
   listParts: async (req, res) => {
