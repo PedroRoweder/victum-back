@@ -13,8 +13,15 @@ routes.get(
 
 // Parts
 routes.post("/parts", PartController.createPart);
+<<<<<<< Updated upstream
 routes.get("/parts", PartController.listParts);
 routes.get("/parts/:SKU", PartController.getPart);
 // Parts End
+=======
+
+routes.get("/parts", PartController.listParts);
+
+routes.get("/parts/:SKU", PartController.getParts);
+>>>>>>> Stashed changes
 
 module.exports = routes;

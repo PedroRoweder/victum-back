@@ -1,3 +1,4 @@
+const { model } = require("../../database");
 const connection = require("../../database");
 
 // Schemas
@@ -8,6 +9,18 @@ const PartController = {
   createPart: async (req, res) => {
     try {
       const newPart = new Part(req.body);
+
+      //Verifies if SKU is properly provided.
+
+      if (!newPart.SKU)
+        return res.status(422).json({ message: "Invalid SKU." });
+
+      //Verifies if given SKU already exists.
+
+      const existsSKU = await Part.findOne({ SKU: newPart.SKU }).exec();
+
+      if (existsSKU)
+        return res.status(409).json({ message: "This SKU already exists." });
 
       await newPart.save();
 
@@ -35,6 +48,19 @@ const PartController = {
       return res.status(200).json({ part });
     } catch (error) {
       return res.status(500).json({ route: "GET /parts/:SKU", message: error });
+    }
+  },
+  listParts: async (req, res) => {
+    try {
+      const Parts = await connection
+        .model("part", partSchema)
+        .find({}, "-_id SKU desc");
+
+      if (!Parts) return res.status(404).json({ message: "No data found." });
+
+      return res.status(200).json({ Parts });
+    } catch (error) {
+      return res.status(500).json({ message: error });
     }
   },
 };
