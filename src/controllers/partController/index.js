@@ -34,18 +34,20 @@ const PartController = {
     const { SKU } = req.params;
 
     try {
-      const part = await Part.findOne({ SKU }).exec();
+      let part = await Part.findOne({ SKU }).exec();
 
       if (!part) {
         res.status(404).json({ message: "Invalid SKU." });
       }
 
       // ! Think about a better way to do this, its horrible
-      req.body.SKU ? (part.SKU = req.body.SKU) : undefined;
+      /* req.body.SKU ? (part.SKU = req.body.SKU) : undefined;
       req.body.desc ? (part.desc = req.body.desc) : undefined;
       req.body.operationList
         ? (part.operationList = req.body.operationList)
-        : undefined;
+        : undefined; */
+
+      part = Object.assign(part, req.body);
 
       await part.save();
 
