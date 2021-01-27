@@ -3,7 +3,6 @@ const routes = require("express").Router();
 // Controllers
 const IndexController = require("./controllers/index");
 const PartController = require("./controllers/partController");
-const partSchema = require("./schema/part");
 
 // health
 routes.get(
